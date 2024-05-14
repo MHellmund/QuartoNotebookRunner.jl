@@ -782,11 +782,8 @@ function worker_init(f::File)
                 dpi_kwargs = Dict{Symbol,Any}()
             end
 
-            if (_pkg_version(pkgid) < v"1.28.1") && (fm.fig_format == "pdf")
-                Plots.gr(; size_kwargs..., fmt = :png, dpi_kwargs...)
-            else
-                Plots.gr(; size_kwargs..., fmt = fm.fig_format, dpi_kwargs...)
-            end
+            Plots.gr(; size_kwargs..., fmt = :png, dpi_kwargs...)
+
             return nothing
         end
         _Plots_hook(::Any...) = nothing
@@ -812,7 +809,7 @@ function worker_init(f::File)
             PlotlyBase.to_html(
                 io,
                 wrapper.value;
-                include_plotlyjs = "require",
+                include_plotlyjs = "cdn",
                 full_html = false,
             )
         end
